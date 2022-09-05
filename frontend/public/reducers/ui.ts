@@ -6,7 +6,7 @@ import { ALL_APPLICATIONS_KEY, ALL_NAMESPACES_KEY } from '@console/shared/src/co
 import { getNamespace } from '../components/utils/link';
 import { OverviewSpecialGroup } from '../components/overview/constants';
 import { RootState } from '../redux';
-import { getUser } from '@console/dynamic-plugin-sdk';
+// import { getUser } from '@console/dynamic-plugin-sdk';
 
 export type UIState = ImmutableMap<string, any>;
 
@@ -36,12 +36,13 @@ export default (state: UIState, action: UIAction): UIState => {
         groupOptions: ImmutableMap(),
         filterValue: '',
       }),
-      user: {},
       utilizationDuration: ImmutableMap({
         duration: null,
         endTime: null,
         selectedKey: null,
       }),
+      activeCluster: '',
+      user: { identities: [] },
     });
   }
 
@@ -144,6 +145,13 @@ export default (state: UIState, action: UIAction): UIState => {
 
     case ActionType.SetShowOperandsInAllNamespaces:
       return state.set('showOperandsInAllNamespaces', action.payload.value);
+
+    case ActionType.SetUser:
+      return state.setIn(['user'], action.payload.value);
+
+    case ActionType.SetActiveCluster:
+      return state.setIn(['activeCluster'], action.payload.value);
+
     default:
       break;
   }
@@ -153,6 +161,8 @@ export default (state: UIState, action: UIAction): UIState => {
 export const createProjectMessageStateToProps = ({ UI }: RootState) => {
   return { createProjectMessage: UI.get('createProjectMessage') as string };
 };
+
+export const getUser = ({ UI }: RootState): string => UI.get('user');
 
 export const userStateToProps = (state: RootState) => {
   return { user: getUser(state) };

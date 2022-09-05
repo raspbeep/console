@@ -19,7 +19,7 @@ import { subsClient } from '../graphql/client';
 import {
   beginImpersonate,
   endImpersonate,
-  getUser,
+  // getUser,
   getImpersonate,
 } from '@console/dynamic-plugin-sdk';
 
@@ -49,6 +49,8 @@ export enum ActionType {
   SetUtilizationDurationSelectedKey = 'SetUtilizationDurationSelectedKey',
   SetUtilizationDurationEndTime = 'SetUtilizationDurationEndTime',
   SetShowOperandsInAllNamespaces = 'setShowOperandsInAllNamespaces',
+  SetUser = 'SetUser',
+  SetActiveCluster = 'SetActiveCluster',
 }
 
 type MetricValuesByName = {
@@ -319,6 +321,9 @@ export const setShowOperandsInAllNamespaces = (value: boolean) => {
   return action(ActionType.SetShowOperandsInAllNamespaces, { value });
 };
 
+export const setUser = (value: boolean) => action(ActionType.SetUser, { value });
+export const setActiveCluster = (value: boolean) => action(ActionType.SetActiveCluster, { value });
+
 // TODO(alecmerdler): Implement all actions using `typesafe-actions` and add them to this export
 const uiActions = {
   setCurrentLocation,
@@ -346,6 +351,8 @@ const uiActions = {
   setUtilizationDuration,
   setUtilizationDurationSelectedKey,
   setUtilizationDurationEndTime,
+  setUser,
+  setActiveCluster,
 };
 
 export type UIAction = Action<typeof uiActions>;

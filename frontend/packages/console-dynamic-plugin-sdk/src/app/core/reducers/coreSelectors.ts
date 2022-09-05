@@ -1,8 +1,8 @@
-import { ImpersonateKind, SDKStoreState, UserKind } from '../../redux-types';
+import { ImpersonateKind, SDKStoreState /* , UserKind */ } from '../../redux-types';
 
 type GetImpersonate = (state: SDKStoreState) => ImpersonateKind;
-type GetUser = (state: SDKStoreState) => UserKind;
-type GetCluster = (state: SDKStoreState) => string;
+// type GetUser = (state: SDKStoreState) => UserKind;
+// type GetCluster = (state: SDKStoreState) => string;
 
 /**
  * It provides impersonation details from the redux store.
@@ -20,17 +20,17 @@ export const impersonateStateToProps = (state: SDKStoreState) => {
   return { impersonate: getImpersonate(state) };
 };
 
-/**
- * It provides user details from the redux store.
- * @param state the root state
- * @returns The the user state.
- */
-export const getUser: GetUser = (state) => state.sdkCore.user;
+// /**
+//  * It provides user details from the redux store.
+//  * @param state the root state
+//  * @returns The the user state.
+//  */
+// export const getUser: GetUser = (state) => state.sdkCore.user;
 
-/**
- * It provides current active cluster.
- * @param state the root state
- * @returns The the current active cluster.
- */
-export const getActiveCluster: GetCluster = (state) =>
-  state?.sdkCore?.activeCluster || 'local-cluster';
+// /**
+//  * It provides current active cluster.
+//  * @param state the root state
+//  * @returns The current active cluster.
+//  */
+// export const getActiveCluster: GetCluster = (state) =>
+//   state?.sdkCore?.activeCluster || 'local-cluster';
