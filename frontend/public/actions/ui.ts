@@ -10,18 +10,23 @@ import {
   ALL_NAMESPACES_KEY,
   LAST_NAMESPACE_NAME_LOCAL_STORAGE_KEY,
 } from '@console/shared/src/constants';
-import { K8sResourceKind, PodKind, NodeKind } from '../module/k8s';
+import { K8sResourceKind, PodKind, NodeKind, ImpersonateKind } from '../module/k8s';
 import { allModels } from '../module/k8s/k8s-models';
 import { detectFeatures, clearSSARFlags } from './features';
 import { OverviewSpecialGroup } from '../components/overview/constants';
 import { setClusterID, setCreateProjectMessage } from './common';
 import { subsClient } from '../graphql/client';
+// import {
+//   beginImpersonate,
+//   endImpersonate,
+//   getUser,
+//   getImpersonate,
+// } from '@console/dynamic-plugin-sdk';
 import {
-  beginImpersonate,
-  endImpersonate,
-  // getUser,
+  getUser,
   getImpersonate,
-} from '@console/dynamic-plugin-sdk';
+} from '../reducers/ui';
+import { K8sResourceCommon } from '../../packages/console-dynamic-plugin-sdk/src/extensions/console-types';
 
 export enum ActionType {
   DismissOverviewDetails = 'dismissOverviewDetails',
@@ -51,6 +56,8 @@ export enum ActionType {
   SetShowOperandsInAllNamespaces = 'setShowOperandsInAllNamespaces',
   SetUser = 'SetUser',
   SetActiveCluster = 'SetActiveCluster',
+  BeginImpersonate = '',
+  EndImpersonate = '',
 }
 
 type MetricValuesByName = {
@@ -321,8 +328,11 @@ export const setShowOperandsInAllNamespaces = (value: boolean) => {
   return action(ActionType.SetShowOperandsInAllNamespaces, { value });
 };
 
-export const setUser = (value: boolean) => action(ActionType.SetUser, { value });
+export const setUser = (value: UserKind) => action(ActionType.SetUser, { value });
 export const setActiveCluster = (value: boolean) => action(ActionType.SetActiveCluster, { value });
+
+export const beginImpersonate = (value: ImpersonateKind) => action(ActionType.BeginImpersonate, { value });
+export const endImpersonate = (value: ImpersonateKind) => action(ActionType.EndImpersonate, { value });
 
 // TODO(alecmerdler): Implement all actions using `typesafe-actions` and add them to this export
 const uiActions = {
@@ -353,6 +363,13 @@ const uiActions = {
   setUtilizationDurationEndTime,
   setUser,
   setActiveCluster,
+  beginImpersonate,
+  endImpersonate,
 };
 
 export type UIAction = Action<typeof uiActions>;
+
+export type UserKind = {
+  fullName?: string;
+  identities: string[];
+} & K8sResourceCommon;

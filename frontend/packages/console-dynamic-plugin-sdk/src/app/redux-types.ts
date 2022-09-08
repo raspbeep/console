@@ -8,19 +8,19 @@ export type K8sState = ImmutableMap<string, any>;
 //   identities: string[];
 // } & K8sResourceCommon;
 
-export type ImpersonateKind = {
-  kind: string;
-  name: string;
-  subprotocols: string[];
-};
+// export type ImpersonateKind = {
+//   kind: string;
+//   name: string;
+//   subprotocols: string[];
+// };
 
 export type CoreState = {
   // activeCluster?: string;
   // user?: UserKind;
-  impersonate?: ImpersonateKind;
+  // impersonate?: ImpersonateKind;
 };
 
 export type SDKStoreState = {
-  sdkCore: CoreState;
+  // sdkCore: CoreState;
   k8s: K8sState;
 };

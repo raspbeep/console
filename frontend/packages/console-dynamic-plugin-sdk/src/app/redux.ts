@@ -1,4 +1,4 @@
-import { coreReducer } from './core/reducers/core';
+// import { coreReducer } from './core/reducers/core';
 import sdkK8sReducers from './k8s/reducers/k8s';
 
 /**
@@ -8,6 +8,6 @@ import sdkK8sReducers from './k8s/reducers/k8s';
  * If the app does not use Redux, these will be provided via the SDK Redux Store.
  */
 export const SDKReducers = Object.freeze({
-  sdkCore: coreReducer,
+  // sdkCore: coreReducer,
   k8s: sdkK8sReducers,
 });

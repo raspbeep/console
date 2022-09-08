@@ -1178,3 +1178,9 @@ export type ReplicationControllerKind = {
 } & K8sResourceCommon;
 
 export type ReplicaSetKind = {} & ReplicationControllerKind;
+
+export type ImpersonateKind = {
+  kind: string;
+  name: string;
+  subprotocols: string[];
+};

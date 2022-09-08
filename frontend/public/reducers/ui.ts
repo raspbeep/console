@@ -7,6 +7,8 @@ import { getNamespace } from '../components/utils/link';
 import { OverviewSpecialGroup } from '../components/overview/constants';
 import { RootState } from '../redux';
 // import { getUser } from '@console/dynamic-plugin-sdk';
+import { ImpersonateKind } from 'public/module/k8s';
+import { UserKind } from '../actions/ui';
 
 export type UIState = ImmutableMap<string, any>;
 
@@ -43,6 +45,7 @@ export default (state: UIState, action: UIAction): UIState => {
       }),
       activeCluster: '',
       user: { identities: [] },
+      impersonate: { kind: '', name: '', subprotocols: [] },
     });
   }
 
@@ -152,6 +155,22 @@ export default (state: UIState, action: UIAction): UIState => {
     case ActionType.SetActiveCluster:
       return state.setIn(['activeCluster'], action.payload.value);
 
+    case ActionType.BeginImpersonate:
+      return state.setIn(['impersonate'], action.payload.value)
+
+    case ActionType.EndImpersonate: {
+      const stateKeys = Object.keys(state);
+      return stateKeys.reduce((acc, key) => {
+        if (key !== 'impersonate') {
+          return {
+            ...acc,
+            [key]: state[key],
+          };
+        }
+        return acc;
+      }, {} as UIState);
+    }
+
     default:
       break;
   }
@@ -162,10 +181,18 @@ export const createProjectMessageStateToProps = ({ UI }: RootState) => {
   return { createProjectMessage: UI.get('createProjectMessage') as string };
 };
 
-export const getUser = ({ UI }: RootState): string => UI.get('user');
+export const getUser = ({ UI }: RootState): UserKind => UI.get('user');
 
-export const userStateToProps = (state: RootState) => {
-  return { user: getUser(state) };
+export const userStateToProps = (UI: RootState) => {
+  return { user: getUser(UI) };
+};
+
+type GetImpersonate = (state: RootState) => ImpersonateKind;
+
+export const getImpersonate: GetImpersonate = ({ UI }: RootState) => UI.get('impersonate');
+
+export const impersonateStateToProps = (UI: RootState): {impersonate: ImpersonateKind} => {
+  return { impersonate: getImpersonate(UI) };
 };
 
 export const getActiveNamespace = ({ UI }: RootState): string => UI.get('activeNamespace');
