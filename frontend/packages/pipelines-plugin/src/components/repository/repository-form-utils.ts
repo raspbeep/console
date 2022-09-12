@@ -10,6 +10,7 @@ import {
   k8sListResourceItems,
   k8sPatchResource,
 } from '@console/dynamic-plugin-sdk/src/utils/k8s';
+// import { k8sGetResource } from '@openshift/dynamic-plugin-sdk-utils';
 import { GitProvider } from '@console/git-service/src';
 import { SecretType } from '@console/internal/components/secrets/create-secret';
 import { ConfigMapModel, SecretModel } from '@console/internal/models';
@@ -187,11 +188,11 @@ metadata:
 
     # The branch or tag we are targeting (ie: main, refs/tags/*)
     pipelinesascode.tekton.dev/on-target-branch: "main"
-    
+
     # Fetch the git-clone task from hub, we are able to reference later on it
     # with taskRef and it will automatically be embedded into our pipeline.
     pipelinesascode.tekton.dev/task: "git-clone"
-    
+
     # You can add more tasks in here to reuse, browse the one you like from here
     # https://hub.tekton.dev/
     # example:
@@ -228,7 +229,7 @@ spec:
             value: $(params.repo_url)
           - name: revision
             value: $(params.revision)
-  
+
       # Customize this task if you like, or just do a taskRef
       # to one of the hub task.
       - name: noop-task

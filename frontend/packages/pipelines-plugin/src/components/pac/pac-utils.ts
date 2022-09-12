@@ -1,9 +1,9 @@
 import {
   k8sCreateResource,
-  k8sGetResource,
   k8sListResourceItems,
   k8sPatchResource,
 } from '@console/dynamic-plugin-sdk/src/utils/k8s';
+import { k8sGetResource } from '@openshift/dynamic-plugin-sdk-utils';
 import { SecretType } from '@console/internal/components/secrets/create-secret';
 import { ConfigMapModel, RouteModel, SecretModel } from '@console/internal/models';
 import { RouteKind } from '@console/internal/module/k8s';
@@ -73,8 +73,10 @@ export const getControllerUrl = async () => {
 export const getPACInfo = async () =>
   k8sGetResource({
     model: ConfigMapModel,
-    name: PAC_INFO,
-    ns: PIPELINE_NAMESPACE,
+    queryOptions: {
+      name: PAC_INFO,
+      ns: PIPELINE_NAMESPACE,
+    }
   });
 
 export const updatePACInfo = async (appLink: string = '') => {
