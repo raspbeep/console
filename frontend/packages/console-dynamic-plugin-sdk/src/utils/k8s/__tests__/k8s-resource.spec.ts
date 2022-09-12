@@ -1,6 +1,7 @@
+import { k8sGetResource } from '@openshift/dynamic-plugin-sdk-utils';
 import { K8sModel } from '../../../api/common-types';
 import * as k8sUtil from '../../fetch';
-import { k8sGet, k8sList, k8sGetResource } from '../k8s-resource';
+import { k8sGet, k8sList } from '../k8s-resource';
 
 describe('k8s-Resource', () => {
   const MockPodModel: K8sModel = {
@@ -60,7 +61,7 @@ describe('k8s-Resource', () => {
 
   it('k8sGetResource should call consoleFetchJSON', async () => {
     spyCoFetchJSON.mockReturnValueOnce(Promise.resolve({ kind: 'Pod' }));
-    const result = await k8sGetResource({ model: MockPodModel, name: 'my-pod' });
+    const result = await k8sGetResource({ model: MockPodModel, queryOptions: { name: 'my-pod' } });
     expect(spyCoFetchJSON).toHaveBeenCalled();
     expect(spyCoFetchJSON).toHaveBeenCalledTimes(1);
     expect(result.kind).toBeDefined();

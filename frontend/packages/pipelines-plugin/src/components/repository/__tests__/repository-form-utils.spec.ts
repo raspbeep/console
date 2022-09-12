@@ -1,8 +1,5 @@
-import {
-  k8sCreateResource,
-  k8sGetResource,
-  k8sListResourceItems,
-} from '@console/dynamic-plugin-sdk/src/utils/k8s';
+import { k8sGetResource } from '@openshift/dynamic-plugin-sdk-utils';
+import { k8sCreateResource, k8sListResourceItems } from '@console/dynamic-plugin-sdk/src/utils/k8s';
 import { GitProvider } from '@console/git-service';
 import { RepositoryModel } from '../../../models';
 import {

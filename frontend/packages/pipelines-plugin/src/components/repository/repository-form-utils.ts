@@ -1,3 +1,4 @@
+import { k8sGetResource } from '@openshift/dynamic-plugin-sdk-utils';
 import * as GitUrlParse from 'git-url-parse';
 import { TFunction } from 'i18next';
 import { Base64 } from 'js-base64';
@@ -6,11 +7,10 @@ import * as yup from 'yup';
 import { gitUrlRegex } from '@console/dev-console/src/components/import/validation-schema';
 import {
   k8sCreateResource,
-  k8sGetResource,
+  // k8sGetResource,
   k8sListResourceItems,
   k8sPatchResource,
 } from '@console/dynamic-plugin-sdk/src/utils/k8s';
-// import { k8sGetResource } from '@openshift/dynamic-plugin-sdk-utils';
 import { GitProvider } from '@console/git-service/src';
 import { SecretType } from '@console/internal/components/secrets/create-secret';
 import { ConfigMapModel, SecretModel } from '@console/internal/models';
@@ -267,8 +267,10 @@ export const getPipelineRunDefaultTemplate = async (repoName: string): Promise<s
   try {
     const template = await k8sGetResource<ConfigMapKind>({
       model: ConfigMapModel,
-      ns: PIPELINE_NAMESPACE,
-      name: PAC_TEMPLATE_DEFAULT,
+      queryOptions: {
+        ns: PIPELINE_NAMESPACE,
+        name: PAC_TEMPLATE_DEFAULT,
+      },
     });
     if (template?.data?.template) {
       pipelineRunTemplate = template.data.template;
