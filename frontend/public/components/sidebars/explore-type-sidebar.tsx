@@ -38,7 +38,7 @@ export const ExploreType: React.FC<ExploreTypeProps> = (props) => {
     if (kindObj) {
       fetchSwagger()
         .then((swagger) => {
-          console.warn("@@3", _.get(swagger, ['io.k8s.api.apps.v1.DeploymentSpec', 'properties', 'selector']));
+          // console.warn("@@3", _.get(swagger, ['io.k8s.api.apps.v1.DeploymentSpec', 'properties', 'selector']));
           setAllDefinitions(swagger);
         })
     } else if(schema) {
