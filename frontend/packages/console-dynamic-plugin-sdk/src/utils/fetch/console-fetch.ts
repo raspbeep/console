@@ -68,6 +68,7 @@ export const consoleFetchJSON: ConsoleFetchJSON = (
   const allOptions = _.defaultsDeep({}, options, {
     headers: { Accept: 'application/json' },
   });
+
   return consoleFetchCommon(url, method, allOptions, timeout, cluster);
 };
 

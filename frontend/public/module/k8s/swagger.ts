@@ -23,7 +23,7 @@ export const getDefinitionKey = _.memoize(
 
 let swaggerDefinitions: SwaggerDefinitions;
 export const getSwaggerDefinitions = (): SwaggerDefinitions => {
-  console.log("@@1", _.get(swaggerDefinitions, ['io.k8s.api.apps.v1.DeploymentSpec', 'properties', 'selector']));
+  console.table("@@1", _.get(swaggerDefinitions, ['io.k8s.api.apps.v1.DeploymentSpec', 'properties', 'selector']));
   return swaggerDefinitions
 };
 
