@@ -55,10 +55,10 @@ export const createYAMLService = () => {
 
   // Prepare the schema
   const yamlOpenAPI = getSwaggerDefinitions();
-  console.log("&&&1", _.get(yamlOpenAPI, ['io.k8s.api.apps.v1.DeploymentSpec', 'properties', 'selector']));
+  // console.log("&&&1", _.get(yamlOpenAPI, ['io.k8s.api.apps.v1.DeploymentSpec', 'properties', 'selector']));
   // Convert the openAPI schema to something the language server understands
   const kubernetesJSONSchema = openAPItoJSONSchema(yamlOpenAPI);
-  console.log("&&&2", _.get(kubernetesJSONSchema, ['definitions', 'io.k8s.api.apps.v1.DeploymentSpec', 'properties', 'selector']));
+  // console.log("&&&2", _.get(kubernetesJSONSchema, ['definitions', 'io.k8s.api.apps.v1.DeploymentSpec', 'properties', 'selector']));
 
   const schemas = [
     {
