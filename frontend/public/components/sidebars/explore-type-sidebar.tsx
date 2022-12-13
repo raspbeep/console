@@ -4,8 +4,9 @@ import { Breadcrumb, BreadcrumbItem, Button, TextContent } from '@patternfly/rea
 import { useTranslation } from 'react-i18next';
 import { CamelCaseWrap } from '@console/dynamic-plugin-sdk';
 import {
+  fetchSwagger,
   getDefinitionKey,
-  getSwaggerDefinitions,
+  // getSwaggerDefinitions,
   getSwaggerPath,
   K8sKind,
   SwaggerDefinition,
@@ -25,6 +26,7 @@ export const ExploreType: React.FC<ExploreTypeProps> = (props) => {
   // entry contains the name, description, and path to the definition in the
   // OpenAPI document.
   const [drilldownHistory, setDrilldownHistory] = React.useState([]);
+  const [allDefinitions, setAllDefinitions] = React.useState<SwaggerDefinitions>(null);
   const { kindObj, schema } = props;
   const { t } = useTranslation();
 
@@ -32,9 +34,22 @@ export const ExploreType: React.FC<ExploreTypeProps> = (props) => {
     return null;
   }
 
-  const allDefinitions: SwaggerDefinitions = kindObj
-    ? getSwaggerDefinitions()
-    : schema && { 'custom-schema': schema };
+  React.useEffect(() => {
+    if (kindObj) {
+      fetchSwagger()
+        .then((swagger) => {
+          console.warn("@@3", _.get(swagger, ['io.k8s.api.apps.v1.DeploymentSpec', 'properties', 'selector']));
+          setAllDefinitions(swagger);
+        })
+    } else if(schema) {
+      setAllDefinitions({ 'custom-schema': schema });
+    }
+  }, [])
+
+  // const allDefinitions: SwaggerDefinitions = kindObj
+  //   ? getSwaggerDefinitions()
+  //   : schema && { 'custom-schema': schema };
+  console.log("###", _.get(allDefinitions, ['io.k8s.api.apps.v1.DeploymentSpec', 'properties', 'selector']));
   if (!allDefinitions) {
     return null;
   }
@@ -43,6 +58,7 @@ export const ExploreType: React.FC<ExploreTypeProps> = (props) => {
   const currentPath = currentSelection
     ? currentSelection.path
     : [kindObj ? getDefinitionKey(kindObj, allDefinitions) : 'custom-schema'];
+  // console.log("###", currentPath);
   const currentDefinition: SwaggerDefinition = _.get(allDefinitions, currentPath);
   const currentProperties =
     _.get(currentDefinition, 'properties') || _.get(currentDefinition, 'items.properties');
