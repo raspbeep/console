@@ -22,10 +22,7 @@ export const getDefinitionKey = _.memoize(
 );
 
 let swaggerDefinitions: SwaggerDefinitions;
-export const getSwaggerDefinitions = (): SwaggerDefinitions => {
-  // console.table("@@1", _.get(swaggerDefinitions, ['io.k8s.api.apps.v1.DeploymentSpec', 'properties', 'selector']));
-  return swaggerDefinitions
-};
+export const getSwaggerDefinitions = (): SwaggerDefinitions => swaggerDefinitions;
 
 export const fetchSwagger = async (): Promise<SwaggerDefinitions> => {
   // Remove any old definitions from `localSotrage`. We rely on the browser cache now.
@@ -39,7 +36,6 @@ export const fetchSwagger = async (): Promise<SwaggerDefinitions> => {
       return null;
     }
     swaggerDefinitions = response.definitions;
-    // console.warn("@@2", _.get(swaggerDefinitions, ['io.k8s.api.apps.v1.DeploymentSpec', 'properties', 'selector']));
     return swaggerDefinitions;
   } catch (e) {
     // eslint-disable-next-line no-console

@@ -6,7 +6,6 @@ import { CamelCaseWrap } from '@console/dynamic-plugin-sdk';
 import {
   fetchSwagger,
   getDefinitionKey,
-  // getSwaggerDefinitions,
   getSwaggerPath,
   K8sKind,
   SwaggerDefinition,
@@ -30,26 +29,20 @@ export const ExploreType: React.FC<ExploreTypeProps> = (props) => {
   const { kindObj, schema } = props;
   const { t } = useTranslation();
 
+  React.useEffect(() => {
+    if (kindObj) {
+      fetchSwagger().then((swagger) => {
+        setAllDefinitions(swagger);
+      });
+    } else if (schema) {
+      setAllDefinitions({ 'custom-schema': schema });
+    }
+  }, [kindObj, schema]);
+
   if (!kindObj && !schema) {
     return null;
   }
 
-  React.useEffect(() => {
-    if (kindObj) {
-      fetchSwagger()
-        .then((swagger) => {
-          // console.warn("@@3", _.get(swagger, ['io.k8s.api.apps.v1.DeploymentSpec', 'properties', 'selector']));
-          setAllDefinitions(swagger);
-        })
-    } else if(schema) {
-      setAllDefinitions({ 'custom-schema': schema });
-    }
-  }, [])
-
-  // const allDefinitions: SwaggerDefinitions = kindObj
-  //   ? getSwaggerDefinitions()
-  //   : schema && { 'custom-schema': schema };
-  console.log("###", _.get(allDefinitions, ['io.k8s.api.apps.v1.DeploymentSpec', 'properties', 'selector']));
   if (!allDefinitions) {
     return null;
   }

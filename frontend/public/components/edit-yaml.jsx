@@ -297,7 +297,6 @@ export const EditYAML_ = connect(stateToProps)(
           if (this.state.initialized && !reload) {
             return;
           }
-          console.log("here", obj)
           const yaml = this.convertObjToYAMLString(obj);
           this.displayedVersion = _.get(obj, 'metadata.resourceVersion');
           this.getEditor().setValue(yaml);
