@@ -36,6 +36,8 @@ export const ExploreType: React.FC<ExploreTypeProps> = (props) => {
       });
     } else if (schema) {
       setAllDefinitions({ 'custom-schema': schema });
+    } else {
+      return null;
     }
   }, [kindObj, schema]);
 
